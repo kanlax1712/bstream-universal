@@ -1,14 +1,10 @@
 [build]
   command = "npm install && npx prisma generate && npm run build"
-  publish = ".next"
+  # Don't set publish directory - Next.js plugin handles it automatically
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
 [build.environment]
   NODE_VERSION = "20"
-
-# Next.js configuration
-[functions]
-  node_bundler = "esbuild"
 
