@@ -8,3 +8,7 @@
 [build.environment]
   NODE_VERSION = "20"
 
+# Next.js configuration
+[functions]
+  node_bundler = "esbuild"
+
