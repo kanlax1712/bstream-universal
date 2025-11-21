@@ -17,3 +17,8 @@ if (process.env.NODE_ENV !== "production") {
   globalForPrisma.prisma = prisma;
 }
 
+// Handle database connection errors gracefully
+prisma.$connect().catch((error) => {
+  console.error("Failed to connect to database:", error);
+});
+

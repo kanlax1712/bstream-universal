@@ -25,7 +25,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
+  let session = null;
+  try {
+    session = await auth();
+  } catch (error) {
+    console.error("Error in layout:", error);
+    // Continue without session if auth fails
+  }
 
   return (
     <html lang="en" className="bg-slate-950 text-white">
