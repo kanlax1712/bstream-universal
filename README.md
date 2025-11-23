@@ -2,6 +2,8 @@
 
 A full-featured video streaming platform built with Next.js, Prisma, and NextAuth.js. Similar to YouTube, with features for video upload, playback, subscriptions, comments, playlists, live streaming, and analytics.
 
+**🚀 Ready for deployment to any hosting service!**
+
 ## 🚀 Features
 
 - **User Management**: Registration with profile photos, age, gender, and automatic location detection
@@ -25,109 +27,172 @@ A full-featured video streaming platform built with Next.js, Prisma, and NextAut
 
 ## 📋 Prerequisites
 
-- Node.js 18+ and npm
-- Git
-- PostgreSQL (for production)
+- **Node.js**: Version 20.x (LTS)
+- **npm**: Version 9.x or higher
+- **Git**: For cloning the repository
+- **PostgreSQL**: For production deployment (optional for local dev)
 
-## 🚀 Quick Start
+## 🏠 Quick Start - Local Development
 
-### Installation
+### Step 1: Clone Repository
 
 ```bash
-# Clone repository
-git clone https://github.com/YOUR_USERNAME/bstream.git
-cd bstream/web
+git clone https://github.com/kanlax1712/bstream-universal.git
+cd bstream-universal/web
+```
 
-# Install dependencies
+### Step 2: Install Dependencies
+
+```bash
 npm install
+```
 
-# Set up environment variables
-cp .env.example .env
-# Edit .env with your configuration
+### Step 3: Set Up Database
 
-# Set up database
+For local development, SQLite is used by default.
+
+```bash
+# Run migrations
 npm run db:migrate
-npm run db:seed
 
-# Start development server
+# Seed database (optional - adds sample data)
+npm run db:seed
+```
+
+### Step 4: Set Environment Variables
+
+Create `web/.env.local`:
+
+```bash
+DATABASE_URL=file:./dev.db
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=local-development-secret-key
+NODE_ENV=development
+```
+
+Generate a secret:
+```bash
+openssl rand -base64 32
+```
+
+### Step 5: Start Development Server
+
+```bash
 npm run dev
 ```
 
-Visit http://localhost:3000
+Visit: **http://localhost:3000**
 
 ### Demo Credentials
 
-- Email: `creator@bstream.dev`
-- Password: `watchmore`
+After seeding:
+- **Email**: `creator@bstream.dev`
+- **Password**: `watchmore`
+
+---
+
+## 🌐 Deployment
+
+This project is ready to deploy to **any hosting service**:
+
+- ✅ **Vercel** (Recommended for Next.js)
+- ✅ **Railway**
+- ✅ **Render**
+- ✅ **Fly.io**
+- ✅ **DigitalOcean**
+- ✅ **Self-hosted/Docker**
+
+### Quick Deployment Guide
+
+See **[DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)** for complete deployment instructions for all platforms.
+
+### Required Environment Variables
+
+```bash
+DATABASE_URL=postgresql://user:password@host:5432/database
+NEXTAUTH_URL=https://your-domain.com
+NEXTAUTH_SECRET=your-secret-key-min-32-chars
+NODE_ENV=production
+```
+
+Generate `NEXTAUTH_SECRET`:
+```bash
+openssl rand -base64 32
+```
+
+---
 
 ## 📚 Documentation
 
-Complete documentation is available in the project root:
+Complete documentation is available:
 
+- **[LOCAL_SETUP.md](./LOCAL_SETUP.md)** - Complete local development setup guide
+- **[DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)** - Deployment to multiple hosting services
 - **[DOCUMENTATION.md](./DOCUMENTATION.md)** - Complete project documentation
 - **[SETUP_GUIDE.md](./SETUP_GUIDE.md)** - Detailed setup instructions
 - **[FEATURES_DOCUMENTATION.md](./FEATURES_DOCUMENTATION.md)** - Feature guide
 - **[TECHNICAL_WORKFLOW.md](./TECHNICAL_WORKFLOW.md)** - Technical architecture
-- **[API_REFERENCE.md](./API_REFERENCE.md)** - API documentation
-- **[DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)** - Production deployment
-- **[GITHUB_DEPLOYMENT.md](./GITHUB_DEPLOYMENT.md)** - GitHub & Netlify setup
 
-## 🌐 Deployment
-
-### Deploy to Netlify
-
-See [GITHUB_DEPLOYMENT.md](./GITHUB_DEPLOYMENT.md) for complete instructions.
-
-**Quick Steps**:
-1. Push code to GitHub
-2. Connect repository to Netlify
-3. Set environment variables
-4. Configure PostgreSQL database
-5. Deploy!
-
-### Environment Variables
-
-```env
-DATABASE_URL="postgresql://user:password@host:5432/dbname"
-NEXTAUTH_URL="https://your-domain.com"
-NEXTAUTH_SECRET="your-secret-key"
-NODE_ENV="production"
-```
+---
 
 ## 📁 Project Structure
 
 ```
-bstream/
+bstream-universal/
 ├── web/                    # Next.js application
 │   ├── src/
-│   │   ├── app/           # Pages and API routes
+│   │   ├── app/           # Next.js App Router pages
 │   │   ├── components/    # React components
-│   │   └── lib/           # Utilities
-│   ├── prisma/            # Database schema and migrations
-│   └── public/            # Static files
-├── DOCUMENTATION.md        # Main documentation
-├── SETUP_GUIDE.md         # Setup guide
-├── FEATURES_DOCUMENTATION.md
-├── TECHNICAL_WORKFLOW.md
-├── API_REFERENCE.md
-├── DEPLOYMENT_GUIDE.md
-└── GITHUB_DEPLOYMENT.md
+│   │   ├── lib/           # Utilities (Prisma, Auth)
+│   │   └── data/          # Data fetching functions
+│   ├── prisma/
+│   │   ├── schema.prisma  # Database schema
+│   │   └── migrations/   # Database migrations
+│   ├── public/            # Static files
+│   ├── Dockerfile         # Docker containerization
+│   └── package.json
+├── LOCAL_SETUP.md         # Local development guide
+├── DEPLOYMENT_GUIDE.md    # Multi-platform deployment
+└── README.md              # This file
 ```
 
-## 🧪 Development
+---
+
+## 🛠️ Available Scripts
+
+### Development
 
 ```bash
-# Run development server
-npm run dev
-
-# Run linting
-npm run lint
-
-# Database commands
-npm run db:migrate    # Run migrations
-npm run db:seed       # Seed database
-npx prisma studio     # Database GUI
+npm run dev          # Start development server
 ```
+
+### Database
+
+```bash
+npm run db:migrate   # Run database migrations
+npm run db:seed      # Seed database with sample data
+npx prisma studio    # Open database GUI
+```
+
+### Build
+
+```bash
+npm run build        # Build for production
+npm start            # Start production server
+```
+
+### Docker
+
+```bash
+docker build -t bstream .
+docker run -p 3000:3000 \
+  -e DATABASE_URL="postgresql://..." \
+  -e NEXTAUTH_URL="http://localhost:3000" \
+  -e NEXTAUTH_SECRET="your-secret" \
+  bstream
+```
+
+---
 
 ## 🔒 Security
 
@@ -138,17 +203,50 @@ npx prisma studio     # Database GUI
 - XSS protection
 - File upload validation
 
+---
+
+## 🐛 Troubleshooting
+
+### Port Already in Use
+
+```bash
+# Kill process on port 3000
+lsof -ti:3000 | xargs kill -9
+```
+
+### Database Issues
+
+```bash
+# Regenerate Prisma client
+npx prisma generate
+
+# Reset database (development only)
+npx prisma migrate reset
+```
+
+### Build Errors
+
+```bash
+# Clear Next.js cache
+rm -rf .next
+npm run build
+```
+
+See **[LOCAL_SETUP.md](./LOCAL_SETUP.md)** for more troubleshooting tips.
+
+---
+
 ## 📝 License
 
 This project is open source and available under the MIT License.
+
+---
 
 ## 🤝 Contributing
 
 Contributions, issues, and feature requests are welcome!
 
-## 📧 Support
-
-For support, open an issue in the GitHub repository.
+---
 
 ## 🙏 Acknowledgments
 
@@ -162,3 +260,4 @@ Built with:
 
 **Made with ❤️ for video streaming**
 
+**Ready to deploy anywhere! 🚀**
